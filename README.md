@@ -6,7 +6,7 @@ Introduction
 
 The first assignment of the [Research Track 1](https://unige.it/en/off.f/2021/ins/51201.html?codcla=10635) class is about a simple, portable robot simulator provided us by professor [Carmine Recchiuto](https://github.com/CarmineD8). 
 As students, before starting doing the assignment, we were asked to do some training exercise in order to become acquainted with both the simulator and the program language python. In these excercises we had to make the robot do some simple movement but also grab some game object called "Tokens". Tokens are a sort of squares that could be silver or gold. 
-Back to the assignment, we were supposed to make the robot move inside in the counter-clockwise direction in a predefinite circuit bordered by a set of gold Tokens without touching them. At the same time, whenever the robot detects silver Tokens inside the circuit, it should grab and move them behind itself. You can find the code I created at the following [link](https://github.com/FraPagano/RT_Assignment_1/blob/main/assignment.py)
+Back to the assignment, we were supposed to make the robot move in the counter-clockwise direction in a predefinite circuit bordered by a set of gold Tokens without touching them. At the same time, whenever the robot detects silver Tokens inside the circuit, it should grab and move them behind itself. You can find the code I created at the following [link](https://github.com/FraPagano/RT_Assignment_1/blob/main/assignment.py)
 
 Here's some pictures that shows the robot, the silver and the gold token that i was writing about:
 
@@ -135,9 +135,8 @@ There are no return values
   *  dist (float): distance of the closest silver token (-1 if no silver token is detected)
   *  rot_y (float): angle between the robot and the silver token (-1 if no silver token is detected) 
  
-* `find_golden_token()`. That function does exactly the same thing of the previous one but with the gold token instead. I gave a restricted field of view in this case too, so that the robot can detect every gold token in a -30 up to 30 degrees' field of view. There are no arguments for this function. The return values are:
+* `find_golden_token()`. That function does exactly the same thing of the previous one but with the gold token instead. I gave a restricted field of view in this case too, so that the robot can detect every gold token in a -30 up to 30 degrees' field of view. There are no arguments for this function. The return value is:
   *  dist (float): distance of the closest gold token (-1 if no gold token is detected)
-  *  rot_y (float): angle between the robot and the gold token (-1 if no gold token is detected)
 
 * `find_golden_token_left()`. This is the function that computes the distance of the closest gold token on the left of the robot. I could do that by giving the robot an additional and restricted field of view that goes from -105 up to -75 degrees. There are no arguments for this function. The return value is:
   *  dist (float): distance of the closest silver token on the left of the robot (-1 if no silver token is detected on the left of the robot)
@@ -154,7 +153,7 @@ There are no return values
 
 There are no return values
 
-That's how the robot turns and grans tokens:
+That's how the robot turns and grabs tokens:
 
 <img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/grab().gif" width="300" height="380" />
 
@@ -206,7 +205,39 @@ For a more precise description of what my code does you can consult the followin
 
 ![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/RT_first_assignment_flowchart.JPG)
 
+The `main()` function contains every functions that I described previously. An important fact is that, in order to update variables online, it was necessary to create an endless `while` loop. A clearer idea of what the `main()` function does is given by the flowchart I created.
+
+This is my `main()` function, as you can see there are just a few lines of code because of both the simplicity of the code and the implementations of lots of functions in order to keep the code tidy and clean.
+
+```python
+def main():
+	while 1:  
+			#Updating variables value for every while cycle
+			dist_silver, rot_silver = find_silver_token()
+			dist_gold=find_golden_token()
+			left_dist=find_golden_token_left()
+			right_dist=find_golden_token_right()
+			#Check if gold token are detected, if no gold token are detected go straight ahead.						
+			if (dist_gold>gold_th and dist_silver>silver_th) or (dist_gold>gold_th and dist_silver==-1):
+					print("I'll go straight ahead")
+					drive(70,0.5)		
+			#If gold token are detected, then check where the wall is			
+			elif dist_gold<gold_th and dist_gold!=-1:
+			#The robot decides where to turn
+					turn_method(left_dist, right_dist)					
+			if dist_silver<silver_th and dist_silver!=-1: 
+			#If any silver token closer than silver_th is detected, the grab routine will start
+		    		print("Silver is close")
+		    		grab_routine(rot_silver, dist_silver)
+```
+
 Results
 --------------------------------
-In order to make you understand how my code works i created this video ![video](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/4xRT_video2.mp4)
+The final result is that the robot correctly runs around the circuit and, despite there are some things that could be improved in the future, I am satisfied with the work that I've done specially because that was my first approach with python programming language. The whole work was carried out together with my friends and uni colleagues.
 
+In order to make you understand how my code works, I recorded this video ![video](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/4xRT_video2.mp4)
+
+Possible Improvements
+--------------------------------
+* The first possible thing to improve that I can think of is to give the robot the capability to rotate in such a way that it can always move parallel to the wall, avoiding multiple turn decisions.
+* Another thing could be an online control about detecting silver token, preventing the robot from facing the wall at every circuit's curve. This could give the robot a smoother and cleaner movement.
