@@ -30,7 +30,7 @@ The circuit in which the robot should navigate is the following:
 
 The code I implemented is very simple but efficient, indeed I wrote just a few lines of code but these computes all the neccessary controls in order to make the robot navigate correctly. The idea is to make the robot go straight forward unless some gold or silver token are detected, depending on the tokens' color the robot does different things.
 
-The greaest issues that I faced with during the implementation of the project are:
+The greaest issues that I faced with during the implementation of the project were:
 * design a turn decision method;
 * create a code that does such turn decision method;
 * find all the correct parameters (i.e. linear and angular velocity, duration time for `drive()` and `turn()` functions, threshold values, etc..) in such a way as not to be too fast or too slow.
@@ -58,9 +58,10 @@ On Ubuntu, this can be accomplished by:
 To run one or more scripts in the simulator, use `run.py`, passing it the file names.
 Example: `python2 run.py file_name.py`
 
-
+Methods
 ----------------------
-Here's some robot's properties that I used for the assignment.
+
+Here's some properties of the robot's class that I used for the assignment.
 
 ### Motors
 
@@ -120,11 +121,38 @@ for m in markers:
         print " - Arena marker {0} is {1} metres away".format( m.info.offset, m.dist )
 ```
 These attributes were so much useful for my functions because thanks to them I could make the robot detect both silver and gold tokens in every direction. The mentioned funtions are:
-* `find_silver_token()`. This function helps the robot finding both the distance and the angle (between robot and token) of the closest silver token. An important thing to explain is that the sensors that the robot is equipped with can detect every token in the map in a 360 degrees field of view, so when the robot grabs and moves behind it the first silver token, actually this is still the closest silver token to detect. I avoided this issue by giving the robot a restricted field of view, so that it could only "see" tokens in front of him: from -70 up to 70 degrees at a maximum distance of 3 _meters_. By this way, once that the robot released the first silver token it goes for the next one. 
-* `find_golden_token()`. That function does exactly the same thing of the previous one but with the gold token instead. I gave a restricted field of view in this case too, so that the robot can detect every gold token in a -30 up to 30 degrees' field of view. 
-* `find_golden_token_left()`. This is the function that computes the distance of the closest gold token on the left of the robot. I could do that by giving the robot an additional and restricted field of view that goes from -105 up to 75 degrees.
-* `find_golden_token_right()`. This is the function that computes the distance of the closest gold token on the right of the robot. I could do that by giving the robot an additional and restricted field of view that goes from 75 up to 105 degrees.
-* `grab_routine(rot_silver, dist_silver)`. This function activates the routine for grabbing the detected silver token. It makes the robot allign, grab and release the token. The functions's argument are the angle between the closest silver token and its distance from the robot.
+* `drive(speed, seconds)`. This function allows the robot to move straight for a certain time interval with a determinated speed. The arguments of the function are:
+  *  speed (int): the speed of the wheels
+  *  seconds (int): the time interval
+
+There are no return values
+* `turn(speed, seconds)`. This function allows the robot to turn for a certain time interval with a determinated speed. The arguments of the function are:
+  *  speed (int): the speed of the wheels
+  *  seconds (int): the time interval
+ 
+There are no return values
+* `find_silver_token()`. This function helps the robot finding both the distance and the angle (between robot and token) of the closest silver token. An important thing to explain is that the sensors that the robot is equipped with can detect every token in the map in a 360 degrees field of view, so when the robot grabs and moves behind it the first silver token, actually this is still the closest silver token to detect. I avoided this issue by giving the robot a restricted field of view, so that it could only "see" tokens in front of him: from -70 up to 70 degrees at a maximum distance of 3 _meters_. By this way, once that the robot released the first silver token it goes for the next one. There are no arguments for this function. The return values are:
+  *  dist (float): distance of the closest silver token (-1 if no silver token is detected)
+  *  rot_y (float): angle between the robot and the silver token (-1 if no silver token is detected) 
+ 
+* `find_golden_token()`. That function does exactly the same thing of the previous one but with the gold token instead. I gave a restricted field of view in this case too, so that the robot can detect every gold token in a -30 up to 30 degrees' field of view. There are no arguments for this function. The return values are:
+  *  dist (float): distance of the closest gold token (-1 if no gold token is detected)
+  *  rot_y (float): angle between the robot and the gold token (-1 if no gold token is detected)
+
+* `find_golden_token_left()`. This is the function that computes the distance of the closest gold token on the left of the robot. I could do that by giving the robot an additional and restricted field of view that goes from -105 up to -75 degrees. There are no arguments for this function. The return value is:
+  *  dist (float): distance of the closest silver token on the left of the robot (-1 if no silver token is detected on the left of the robot)
+* `find_golden_token_right()`. This is the function that computes the distance of the closest gold token on the right of the robot. I could do that by giving the robot an additional and restricted field of view that goes from 75 up to 105 degrees. There are no arguments for this function. The return value is:
+  *  dist (float): distance of the closest silver token on the right of the robot (-1 if no silver token is detected on the right of the robot)
+* `grab_routine(rot_silver, dist_silver)`. This function activates the routine for grabbing the detected silver token. It makes the robot allign, grab and release the token. The arguments of the function are:
+  *  rot_silver (float): angle between the robot and the closest silver token
+  *  dist_silver (float): distance from the closest silver token
+
+There are no return values
+* `turn_method(left_dist, right_dist)`. This function implements the turn decision method. The arguments of the function are:
+  *  left_dist (float): distance of the closest gloden token on the left of the robot
+  *  right_dist (float): distance of the closest gloden token on the right of the robot
+
+There are no return values
 
 For example, the following code prints the distances of the closest gold token on the left and on the right of the robot:
 ```python
@@ -168,5 +196,7 @@ For a more precise description of what my code does you can consult the followin
 
 ![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/RT_first_assignment_flowchart.JPG)
 
-
+Results
+--------------------------------
+In order to make you understand how my code works i created this video ![video](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/4x_video.mp4)
 
