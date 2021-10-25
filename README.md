@@ -154,6 +154,14 @@ There are no return values
 
 There are no return values
 
+That's how the robot turns and grans tokens:
+
+<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/grab().gif" width="300" height="380" />
+
+<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/turn().gif" width="300" height="380" />
+
+
+
 For example, the following code prints the distances of the closest gold token on the left and on the right of the robot:
 ```python
 def print_right_distance()
@@ -191,12 +199,14 @@ This is a pseudocode of the  turn decision method:
  ```
 Every parameter such as linear and angular velocity, duration time for `drive()` and `turn()` functions, threshold values, anglular span, etc.. have been found experimentally.
 
- ### Flowchart
+Flowchart
+--------------------------------
+
 For a more precise description of what my code does you can consult the following flowchart, created with [Lucidchart](https://www.lucidchart.com/pages/it/landing?utm_source=google&utm_medium=cpc&utm_campaign=_chart_it_allcountries_mixed_search_brand_bmm_&km_CPC_CampaignId=9589672283&km_CPC_AdGroupID=99331286392&km_CPC_Keyword=%2Blucidcharts&km_CPC_MatchType=b&km_CPC_ExtensionID=&km_CPC_Network=g&km_CPC_AdPosition=&km_CPC_Creative=424699413299&km_CPC_TargetID=kwd-334618660008&km_CPC_Country=1008337&km_CPC_Device=c&km_CPC_placement=&km_CPC_target=&mkwid=sKwFuAgHb_pcrid_424699413299_pkw_%2Blucidcharts_pmt_b_pdv_c_slid__pgrid_99331286392_ptaid_kwd-334618660008_&gclid=CjwKCAjw5c6LBhBdEiwAP9ejG86DblinG5ivYRvMmKSvI8Dl7as9i2oINlmgqIDoj0gpLX6WfnCenRoCxxQQAvD_BwE)
 
 ![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/RT_first_assignment_flowchart.JPG)
 
 Results
 --------------------------------
-In order to make you understand how my code works i created this video ![video](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/4x_video.mp4)
+In order to make you understand how my code works i created this video ![video](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/4xRT_video2.mp4)
 
