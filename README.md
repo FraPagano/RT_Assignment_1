@@ -25,7 +25,7 @@ Here's some pictures that shows the robot, the silver and the gold token that i 
 
 The circuit in which the robot should navigate is the following:
 
-![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/map.JPG)
+![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/map.JPG)
 
 
 The code I implemented is very simple but efficient, indeed I wrote just a few lines of code but these computes all the neccessary controls in order to make the robot navigate correctly. The idea is to make the robot go straight forward unless some gold or silver token are detected, depending on the tokens' color the robot does different things.
@@ -194,7 +194,7 @@ Every parameter such as linear and angular velocity, duration time for `drive()`
  ### Flowchart
 For a more precise description of what my code does you can consult the following flowchart, created with [Lucidchart](https://www.lucidchart.com/pages/it/landing?utm_source=google&utm_medium=cpc&utm_campaign=_chart_it_allcountries_mixed_search_brand_bmm_&km_CPC_CampaignId=9589672283&km_CPC_AdGroupID=99331286392&km_CPC_Keyword=%2Blucidcharts&km_CPC_MatchType=b&km_CPC_ExtensionID=&km_CPC_Network=g&km_CPC_AdPosition=&km_CPC_Creative=424699413299&km_CPC_TargetID=kwd-334618660008&km_CPC_Country=1008337&km_CPC_Device=c&km_CPC_placement=&km_CPC_target=&mkwid=sKwFuAgHb_pcrid_424699413299_pkw_%2Blucidcharts_pmt_b_pdv_c_slid__pgrid_99331286392_ptaid_kwd-334618660008_&gclid=CjwKCAjw5c6LBhBdEiwAP9ejG86DblinG5ivYRvMmKSvI8Dl7as9i2oINlmgqIDoj0gpLX6WfnCenRoCxxQQAvD_BwE)
 
-![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/RT_first_assignment_flowchart.JPG)
+![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/RT_first_assignment_flowchart.JPG)
 
 Results
 --------------------------------
