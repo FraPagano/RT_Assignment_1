@@ -122,44 +122,26 @@ for m in markers:
 ```
 These attributes were so much useful for my functions because thanks to them I could make the robot detect both silver and gold tokens in every direction. The mentioned funtions are:
 * `drive(speed, seconds)`. This function allows the robot to move straight for a certain time interval with a determinated speed. The arguments of the function are:
-  *  speed (int): the speed of the wheels
-  *  seconds (int): the time interval
+  *  speed (int): the speed of the wheels;
+  *  seconds (int): the time interval.
 
 There are no return values
 * `turn(speed, seconds)`. This function allows the robot to turn for a certain time interval with a determinated speed. The arguments of the function are:
-  *  speed (int): the speed of the wheels
-  *  seconds (int): the time interval
+  *  speed (int): the speed of the wheels;
+  *  seconds (int): the time interval.
  
 There are no return values
 * `find_silver_token()`. This function helps the robot finding both the distance and the angle (between robot and token) of the closest silver token. An important thing to explain is that the sensors that the robot is equipped with can detect every token in the map in a 360 degrees field of view, so when the robot grabs and moves behind it the first silver token, actually this is still the closest silver token to detect. I avoided this issue by giving the robot a restricted field of view, so that it could only "see" tokens in front of him: from -70 up to 70 degrees at a maximum distance of 3 _meters_. By this way, once that the robot released the first silver token it goes for the next one. There are no arguments for this function. The return values are:
-  *  dist (float): distance of the closest silver token (-1 if no silver token is detected)
-  *  rot_y (float): angle between the robot and the silver token (-1 if no silver token is detected) 
+  *  dist (float): distance of the closest silver token (-1 if no silver token is detected);
+  *  rot_y (float): angle between the robot and the silver token (-1 if no silver token is detected).
  
 * `find_golden_token()`. That function does exactly the same thing of the previous one but with the gold token instead. I gave a restricted field of view in this case too, so that the robot can detect every gold token in a -30 up to 30 degrees' field of view. There are no arguments for this function. The return value is:
-  *  dist (float): distance of the closest gold token (-1 if no gold token is detected)
+  *  dist (float): distance of the closest gold token (-1 if no gold token is detected).
 
 * `find_golden_token_left()`. This is the function that computes the distance of the closest gold token on the left of the robot. I could do that by giving the robot an additional and restricted field of view that goes from -105 up to -75 degrees. There are no arguments for this function. The return value is:
-  *  dist (float): distance of the closest silver token on the left of the robot (-1 if no silver token is detected on the left of the robot)
+  *  dist (float): distance of the closest silver token on the left of the robot (-1 if no silver token is detected on the left of the robot).
 * `find_golden_token_right()`. This is the function that computes the distance of the closest gold token on the right of the robot. I could do that by giving the robot an additional and restricted field of view that goes from 75 up to 105 degrees. There are no arguments for this function. The return value is:
-  *  dist (float): distance of the closest silver token on the right of the robot (-1 if no silver token is detected on the right of the robot)
-* `grab_routine(rot_silver, dist_silver)`. This function activates the routine for grabbing the detected silver token. It makes the robot allign, grab and release the token. The arguments of the function are:
-  *  rot_silver (float): angle between the robot and the closest silver token
-  *  dist_silver (float): distance from the closest silver token
-
-There are no return values
-* `turn_method(left_dist, right_dist)`. This function implements the turn decision method. The arguments of the function are:
-  *  left_dist (float): distance of the closest gloden token on the left of the robot
-  *  right_dist (float): distance of the closest gloden token on the right of the robot
-
-There are no return values
-
-That's how the robot turns and grabs tokens:
-
-<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/grab().gif" width="300" height="380" />
-
-<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/turn().gif" width="300" height="380" />
-
-
+  *  dist (float): distance of the closest silver token on the right of the robot (-1 if no silver token is detected on the right of the robot).
 
 For example, the following code prints the distances of the closest gold token on the left and on the right of the robot:
 ```python
@@ -183,31 +165,46 @@ def print_left_distance()
 print_right_distance()
 print_left_distance()
 ```
-In this way `find_golden_token_right()` and `find_golden_token_left()` helps the robot turning in the correct direction. The idea is to compute these distances everytime that the robot faces a wall. When the robot is in this condition it controls if the distance computed on the right is greater or smaller than the distance computed on the left. Actually, in order to make the robot turn when the difference between the two computed values is relevant I inserted a coefficient that contributes to increment their difference. By this way the robot only turns when the distances are significantly different, avoiding some wrong decisions. 
 
-This is a pseudocode of the  turn decision method:
+* `grab_routine(rot_silver, dist_silver)`. This function activates the routine for grabbing the detected silver token. It makes the robot allign, grab and release the token. The arguments of the function are:
+  *  rot_silver (float): angle between the robot and the closest silver token;
+  *  dist_silver (float): distance from the closest silver token.
+
+There are no return values
+* `turn_method(left_dist, right_dist)`. This function implements the turn decision method. In this function return values of `find_golden_token_right()`,  `find_golden_token_left()` and `find_golden_token()` helps the robot turning in the correct direction. The idea is to compute these distances everytime that the robot faces a wall. When the robot is in this condition it controls if the distance computed on the right is greater or smaller than the distance computed on the left and it turn in the correct direction until no gold tokens are detected in a threshold area. Actually, in order to make the robot turn when the difference between left_dist and right_dist is relevant I inserted a coefficient that contributes to increment their difference. By this way the robot only turns when the distances are significantly different, avoiding some wrong decisions. The arguments of the function are:
+  *  left_dist (float): distance of the closest gloden token on the left of the robot;
+  *  right_dist (float): distance of the closest gloden token on the right of the robot;
+  *  dist_gold (float): distance of the clostest golden token in front of the robot.
+
+There are no return values
+
+This is the code that implements the  turn decision method:
+
 ```python
-  if dist_left>1.2*dist_right:  
-    print "The wall is on the right, so turn left"
-    turn_left
-  elif dist_right>1.2*dist_left:
-     print "the wall is on the left, so turn right"
-    turn_right
-  else:
-    go_straight_ahead
+def turn_method(left_dist, right_dist, dist_gold):
+	print("Where's the wall?")	
+	if left_dist>1.2*right_dist:
+		print("The wall is on the right at a distance of: "+ str(right_dist))
+		while dist_gold<gold_th:
+			dist_gold=find_golden_token()
+			turn(-10, 0.1)
+			print("I'm turning left")
+	elif right_dist>1.2*left_dist:
+		print("The wall is on the left at a distance of:  "+ str(left_dist))
+		while dist_gold<gold_th:
+			dist_gold=find_golden_token()
+			turn(10, 0.1)
+			print("I'm turning right")
+	else:
+		drive(15,0.5)
+		print("Left and right distances are similar, i'll go straight")
  ```
+ 
 Every parameter such as linear and angular velocity, duration time for `drive()` and `turn()` functions, threshold values, anglular span, etc.. have been found experimentally.
-
-Flowchart
---------------------------------
-
-For a more precise description of what my code does you can consult the following flowchart, created with [Lucidchart](https://www.lucidchart.com/pages/it/landing?utm_source=google&utm_medium=cpc&utm_campaign=_chart_it_allcountries_mixed_search_brand_bmm_&km_CPC_CampaignId=9589672283&km_CPC_AdGroupID=99331286392&km_CPC_Keyword=%2Blucidcharts&km_CPC_MatchType=b&km_CPC_ExtensionID=&km_CPC_Network=g&km_CPC_AdPosition=&km_CPC_Creative=424699413299&km_CPC_TargetID=kwd-334618660008&km_CPC_Country=1008337&km_CPC_Device=c&km_CPC_placement=&km_CPC_target=&mkwid=sKwFuAgHb_pcrid_424699413299_pkw_%2Blucidcharts_pmt_b_pdv_c_slid__pgrid_99331286392_ptaid_kwd-334618660008_&gclid=CjwKCAjw5c6LBhBdEiwAP9ejG86DblinG5ivYRvMmKSvI8Dl7as9i2oINlmgqIDoj0gpLX6WfnCenRoCxxQQAvD_BwE)
-
-![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/RT_first_assignment_flowchart.png)
 
 The `main()` function contains every functions that I described previously. An important fact is that, in order to update variables online, it was necessary to create an endless `while` loop. A clearer idea of what the `main()` function does is given by the flowchart I created.
 
-This is my `main()` function, as you can see there are just a few lines of code because of both the simplicity of the code and the implementations of lots of functions in order to keep the code tidy and clean.
+This is my `main()` function. As you can see there are just a few lines of code because of both the simplicity of the code and the implementations of lots of functions in order to keep the code tidy and clean.
 
 ```python
 def main():
@@ -224,20 +221,32 @@ def main():
 			#If gold token are detected, then check where the wall is			
 			elif dist_gold<gold_th and dist_gold!=-1:
 			#The robot decides where to turn
-					turn_method(left_dist, right_dist)					
+					turn_method(left_dist, right_dist, dist_gold)					
 			if dist_silver<silver_th and dist_silver!=-1: 
 			#If any silver token closer than silver_th is detected, the grab routine will start
 		    		print("Silver is close")
 		    		grab_routine(rot_silver, dist_silver)
 ```
 
+Flowchart
+--------------------------------
+
+For a more precise description of what my code does you can consult the following flowchart, created with [Lucidchart](https://www.lucidchart.com/pages/it/landing?utm_source=google&utm_medium=cpc&utm_campaign=_chart_it_allcountries_mixed_search_brand_bmm_&km_CPC_CampaignId=9589672283&km_CPC_AdGroupID=99331286392&km_CPC_Keyword=%2Blucidcharts&km_CPC_MatchType=b&km_CPC_ExtensionID=&km_CPC_Network=g&km_CPC_AdPosition=&km_CPC_Creative=424699413299&km_CPC_TargetID=kwd-334618660008&km_CPC_Country=1008337&km_CPC_Device=c&km_CPC_placement=&km_CPC_target=&mkwid=sKwFuAgHb_pcrid_424699413299_pkw_%2Blucidcharts_pmt_b_pdv_c_slid__pgrid_99331286392_ptaid_kwd-334618660008_&gclid=CjwKCAjw5c6LBhBdEiwAP9ejG86DblinG5ivYRvMmKSvI8Dl7as9i2oINlmgqIDoj0gpLX6WfnCenRoCxxQQAvD_BwE)
+
+![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/RT_first_assignment_flowchart.png)
+
 Results
 --------------------------------
 The final result is that the robot correctly runs around the circuit and, despite there are some things that could be improved in the future, I am satisfied with the work that I've done specially because that was my first approach with python programming language. The whole work was carried out together with my friends and uni colleagues.
 
-In order to make you understand how my code works, I recorded this video ![video](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/4xRT_video2.mp4)
+That's how the robot turns and grabs tokens:
+
+<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/grab().gif" width="300" height="380" />
+
+<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/turn().gif" width="300" height="380" />
+
+In order to make you understand how my code works, I recorded this ![video](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/4xRT_video2.mp4)
 
 Possible Improvements
 --------------------------------
-* The first possible thing to improve that I can think of is to give the robot the capability to rotate in such a way that it can always move parallel to the wall, avoiding multiple turn decisions.
-* Another thing could be an online control about detecting silver token, preventing the robot from facing the wall at every circuit's curve. This could give the robot a smoother and cleaner movement.
+Something that could be improved is the silver tokens' detecting time. I implemented an offline control, indeed my robot goes grabbing only when a silver token is detected at a determined distance. An online control could give the robot a smoother and cleaner movement. The robot should check for silver token in every time instant and, if conditions are good, the grab_routine can be activated. This method could prevent the robot from facing the wall at every circuit's curve. 
