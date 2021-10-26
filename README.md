@@ -243,7 +243,10 @@ That's how the robot turns and grabs tokens:
 
 <img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/Turn().gif" width="507" height="285" />
 
-In order to make you understand how my code works, I recorded this ![video](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/4xvideo.mp4)
+In order to make you understand how my code works, I recorded this video:
+
+https://user-images.githubusercontent.com/91267426/138884986-7cf915cb-29f2-4560-a8e6-ebb28e6249a9.mp4
+
 
 Possible Improvements
 --------------------------------
