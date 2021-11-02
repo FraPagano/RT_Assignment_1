@@ -134,12 +134,21 @@ There are no return values
 * `find_silver_token()`. This function helps the robot finding both the distance and the angle between the robot and  the closest silver token. An important thing to explain is that the sensors that the robot is equipped with can detect every token in the map in a 360 degrees field of view, so when the robot grabs and moves behind it the first silver token, actually this is still the closest silver token to detect. I avoided this issue by giving the robot a restricted field of view, so that it could only "see" tokens in front of him: from -70 up to 70 degrees at a maximum distance of 3 _meters_. By this way, once that the robot released the first silver token it goes for the next one. There are no arguments for this function. The return values are:
   *  dist (float): distance of the closest silver token (-1 if no silver token is detected);
   *  rot_y (float): angle between the robot and the silver token (-1 if no silver token is detected). 
+
+![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/find_silver_token().JPG)
+
+
 * `find_golden_token()`. That function does exactly the same thing of the previous one but with the gold token instead. I gave a restricted field of view in this case too, so that the robot can detect every gold token in a -30 up to 30 degrees' field of view. There are no arguments for this function. The return value is:
   *  dist (float): distance of the closest gold token (-1 if no gold token is detected).
+
+![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/find_gold_token().JPG)
+
 * `find_golden_token_left()`. This is the function that computes the distance of the closest gold token on the left of the robot. I could do that by giving the robot an additional and restricted field of view that goes from -105 up to -75 degrees. There are no arguments for this function. The return value is:
   *  dist (float): distance of the closest golden token on the left of the robot.
 * `find_golden_token_right()`. This is the function that computes the distance of the closest gold token on the right of the robot. I could do that by giving the robot an additional and restricted field of view that goes from 75 up to 105 degrees. There are no arguments for this function. The return value is:
   *  dist (float): distance of the closest golden token on the right of the robot.
+
+![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/find_gold_lr().JPG)
 
 For example, the following code prints the distances of the closest gold token on the left and on the right of the robot:
 ```python
@@ -169,12 +178,17 @@ print_left_distance()
   *  dist_silver (float): distance from the closest silver token.
 
 There are no return values
+
+<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/grab().gif" width="300" height="380" />
+
 * `turn_method(left_dist, right_dist, dist_gold)`. This function implements the turn decision method. In this function return values of `find_golden_token_right()` (that returns right_dist),  `find_golden_token_left()` (that returns left_dist) and `find_golden_token()` (that returns gold_dist) helps the robot turning in the correct direction. The idea is to compute these distances everytime that the robot faces a wall. When the robot is in this condition it controls if the distance computed on the right is greater or smaller than the distance computed on the left and it turn in the correct direction until no gold tokens are detected in a threshold area. Actually, in order to make the robot turn when the difference between left_dist and right_dist is relevant I inserted a coefficient that contributes to increment their difference. By this way the robot only turns when the distances are significantly different, avoiding some wrong decisions. The arguments of the function are:
   *  left_dist (float): distance of the closest gloden token on the left of the robot;
   *  right_dist (float): distance of the closest gloden token on the right of the robot;
   *  dist_gold (float): distance of the clostest golden token in front of the robot.
 
 There are no return values
+
+<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/Turn().gif" width="507" height="285" />
 
 This is the code that implements the  turn decision method:
 
@@ -236,12 +250,6 @@ For a more precise description of what my code does you can consult the followin
 Results
 --------------------------------
 The final result is that the robot correctly runs around the circuit and, despite there are some things that could be improved in the future, I am satisfied with the work that I've done specially because that was my first approach with python programming language. The whole work was carried out together with my friends and uni colleagues.
-
-That's how the robot turns and grabs tokens:
-
-<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/grab().gif" width="300" height="380" />
-
-<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/Turn().gif" width="507" height="285" />
 
 In order to make you understand how my code works, I recorded this video:
 
