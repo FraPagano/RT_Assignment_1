@@ -135,20 +135,25 @@ There are no return values
   *  dist (float): distance of the closest silver token (-1 if no silver token is detected);
   *  rot_y (float): angle between the robot and the silver token (-1 if no silver token is detected). 
 
-![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/find_silver_token().JPG)
-
+<p align="center">
+ <img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/find_silver_token.jpg" height=320 width=385>
+</p>
 
 * `find_golden_token()`. That function does exactly the same thing of the previous one but with the gold token instead. I gave a restricted field of view in this case too, so that the robot can detect every gold token in a -30 up to 30 degrees' field of view. There are no arguments for this function. The return value is:
   *  dist (float): distance of the closest gold token (-1 if no gold token is detected).
 
-![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/find_gold_token().JPG)
+<p align="center">
+ <img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/find_gold_token.jpg" height=220 width=385>
+</p>
 
 * `find_golden_token_left()`. This is the function that computes the distance of the closest gold token on the left of the robot. I could do that by giving the robot an additional and restricted field of view that goes from -105 up to -75 degrees. There are no arguments for this function. The return value is:
   *  dist (float): distance of the closest golden token on the left of the robot.
 * `find_golden_token_right()`. This is the function that computes the distance of the closest gold token on the right of the robot. I could do that by giving the robot an additional and restricted field of view that goes from 75 up to 105 degrees. There are no arguments for this function. The return value is:
   *  dist (float): distance of the closest golden token on the right of the robot.
 
-![immagine](https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/find_gold_lr().JPG)
+<p align="center">
+ <img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/find_gold_token_left_right.jpg" height=143 width=640>
+</p>
 
 For example, the following code prints the distances of the closest gold token on the left and on the right of the robot:
 ```python
