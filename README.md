@@ -136,7 +136,7 @@ There are no return values
   *  rot_y (float): angle between the robot and the silver token (-1 if no silver token is detected). 
 
 <p align="center">
- <img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/find_silver_token.jpg" height=320 width=385>
+ <img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/find_silver_token.jpg" height=320 width=380>
 </p>
 
 * `find_golden_token()`. That function does exactly the same thing of the previous one but with the gold token instead. I gave a restricted field of view in this case too, so that the robot can detect every gold token in a -30 up to 30 degrees' field of view. There are no arguments for this function. The return value is:
@@ -184,7 +184,9 @@ print_left_distance()
 
 There are no return values
 
-<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/grab().gif" width="300" height="380" />
+<p align="center">
+ <img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/grab().gif" width="300" height="380">
+</p>
 
 * `turn_method(left_dist, right_dist, dist_gold)`. This function implements the turn decision method. In this function return values of `find_golden_token_right()` (that returns right_dist),  `find_golden_token_left()` (that returns left_dist) and `find_golden_token()` (that returns gold_dist) helps the robot turning in the correct direction. The idea is to compute these distances everytime that the robot faces a wall. When the robot is in this condition it controls if the distance computed on the right is greater or smaller than the distance computed on the left and it turn in the correct direction until no gold tokens are detected in a threshold area. Actually, in order to make the robot turn when the difference between left_dist and right_dist is relevant I inserted a coefficient that contributes to increment their difference. By this way the robot only turns when the distances are significantly different, avoiding some wrong decisions. The arguments of the function are:
   *  left_dist (float): distance of the closest gloden token on the left of the robot;
@@ -193,7 +195,9 @@ There are no return values
 
 There are no return values
 
-<img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/Turn().gif" width="507" height="285" />
+<p align="center">
+ <img src="https://github.com/FraPagano/RT_Assignment_1/blob/main/images_gifs/Turn().gif" width="507" height="285">
+</p>
 
 This is the code that implements the  turn decision method:
 
