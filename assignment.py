@@ -13,7 +13,7 @@ a_th = 2.3
 d_th = 0.4
 """ instance of the class Robot"""  
 R = Robot()
-""" int: Maximum distance that the robot must maintain from golden tokens""" 
+""" int: Maximum frontal distance that the robot must keep from golden tokens""" 
 gold_th=1
 """ float: Threshold for the activation of the grab routine"""
 silver_th=1.5
@@ -127,7 +127,7 @@ def find_golden_token_right():
     dist=100
     for token in R.see():
         if token.dist < dist and token.info.marker_type is MARKER_TOKEN_GOLD and 75<token.rot_y<105:
-         #The (75, 1055) angle span is useful for detecting gold token on the right
+         #The (75, 105) angle span is useful for detecting gold token on the right
             dist=token.dist
     if dist==100:
 	return -1
@@ -138,7 +138,7 @@ def find_golden_token_right():
    	
 def grab_routine(rot_silver, dist_silver): 
     """
-    Function to control the routine for grabbing the silver tokens    
+    Function to control the routine for grabbing silver tokens    
     Arguments: 
     	rot_silver (float): angle between the robot and the closest silver token
     	dist_silver (float): distance from the closest silver token
@@ -176,7 +176,7 @@ def turn_method(left_dist, right_dist, dist_gold):
 	print("Where's the wall?")	
 	if left_dist>1.2*right_dist:
 		print("The wall is on the right at a distance of: "+ str(right_dist))
-		while dist_gold<gold_th:
+		while dist_gold<gold_th: #until there are no more gold tokens in front of the robot
 			dist_gold=find_golden_token()
 			turn(-10, 0.1)
 			print("I'm turning left")
@@ -195,12 +195,10 @@ def turn_method(left_dist, right_dist, dist_gold):
 def main():
 	while 1:  
 			#Updating variables value for every while cycle
-			
 			dist_silver, rot_silver = find_silver_token()
 			dist_gold=find_golden_token()
 			left_dist=find_golden_token_left()
 			right_dist=find_golden_token_right()
-			print("dist_gold= "+ str(dist_gold))
 			#Check if gold token are detected, if no gold token are detected go straight ahead.						
 			if (dist_gold>gold_th and dist_silver>silver_th) or (dist_gold>gold_th and dist_silver==-1):
 					print("I'll go straight ahead")
